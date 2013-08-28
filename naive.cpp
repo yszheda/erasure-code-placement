@@ -5,7 +5,7 @@
 //    Description:  
 // 
 //        Version:  1.0
-//        Created:  2013/8/26 §U§» 08:33:37
+//        Created:  2013/8/26 ‰∏ãÂçà 08:33:37
 //       Revision:  none
 //       Compiler:  g++
 // 
@@ -17,6 +17,7 @@
 #include <vector>
 #include <map>
 #include <limits>
+#include <cmath>
 
 using namespace std;
 
@@ -31,8 +32,8 @@ int n;
 // minimum decodable chuck number
 int k;
 // encoding matrix
-// gf2<int> should be a template class
-vector< vector< gf2<8> > > EM;
+// gf<int> should be a template class
+vector< vector< gf<gf_width> > > encoding_matrix;
 // total node number
 int N;
 // N node availability vector
@@ -125,7 +126,7 @@ gen_selected_node_avail_list (  )
 {
 		for ( auto idx = 0; idx < N; idx++ ) {
 				if ( assignment[idx] > 0 ) {
-						int chuck_idx = static_cast<int> log2(assignment[idx]);
+						int chuck_idx = static_cast<int>( log2(assignment[idx]) );
 						static_assert(chuck_idx < n, "Wrong chuck_idx!");
 						selected_avail[chuck_idx] = avail[idx];
 				}
@@ -202,7 +203,7 @@ get_total_cost (  )
 int
 main ( int argc, char *argv[] )
 {
-		SpecifiedCode someCode;
+		SpecifiedCode someCode(param);
 		ErasureCode& code = someCode;
 		gen_recoverable_failure_list(code);
 		gen_min_cost_list(code);
@@ -210,7 +211,7 @@ main ( int argc, char *argv[] )
 		double min_total_cost = numeric_limits<double>::infinity();
 		vector<double> avail(N);
 		vector<double> final_avail(N);
-		foreach combination of assignment
+        foreach combination of assignment
 		{
 				double system_avail = get_system_avail();
 				// check whether the availability violates the SLA

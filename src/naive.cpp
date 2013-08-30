@@ -32,6 +32,7 @@ int n;
 // minimum decodable chuck number
 int k;
 // encoding matrix
+// int width;
 // gf<int> should be a template class
 vector< vector< gf<gf_width> > > encoding_matrix;
 // total node number
@@ -44,10 +45,10 @@ double delta;
 //----------------------------------------------------------------------
 //  Output
 //----------------------------------------------------------------------
-// assignment vector
+// optimal assignment vector
 // store the corresponding chuck index for each node
 // -1 for not assigned
-vector<int> assignment(N);
+vector<int> opt_assignment(N);
 
 //----------------------------------------------------------------------
 //  Variables
@@ -61,7 +62,7 @@ vector<long> recoverable_failure_list;
 // <recoverable_failure_state, cost>
 map<long, int> min_cost_list;
 // availability list of the n selected nodes
-double selected_avail[n];
+vector<double> selected_avail(n);
 
 // ===  FUNCTION  ======================================================================
 //         Name:  gen_recoverable_failure_list
@@ -122,7 +123,7 @@ gen_min_cost_list ( const ErasureCode& code )
 // selected_avail
 // =====================================================================================
 void
-gen_selected_node_avail_list (  )
+gen_selected_node_avail_list ( vector<int>& assignment )
 {
 		for ( auto idx = 0; idx < N; idx++ ) {
 				if ( assignment[idx] > 0 ) {
@@ -146,10 +147,10 @@ gen_selected_node_avail_list (  )
 // system availability
 // =====================================================================================
 double
-get_system_avail (  )
+get_system_avail ( vector<int>& assignment )
 {
 		double system_avail = 0.0;
-		gen_selected_node_avail_list();
+        gen_selected_node_avail_list(assignment);
 		for ( vector<long>::const_iterator it = recoverable_failure_list.begin(); it != recoverable_failure_list.end(); it++ ) {
 				long failure_state = (*it);
 				double failure_state_avail = 1;
@@ -177,10 +178,10 @@ get_system_avail (  )
 // total_regeneration_cost
 // =====================================================================================
 double
-get_total_cost (  )
+get_total_cost ( vector<int>& assignment )
 {
 		double total_cost = 0.0;
-		gen_selected_node_avail_list();
+        gen_selected_node_avail_list(assignment);
 		for ( map<long, int>::const_iterator it = min_cost_list.begin(); it != min_cost_list.end(); it++ ) {
 				long failure_state = it->first;
 				double failure_state_cost = it->second;
@@ -209,8 +210,8 @@ main ( int argc, char *argv[] )
 		gen_min_cost_list(code);
 
 		double min_total_cost = numeric_limits<double>::infinity();
-		vector<double> avail(N);
-		vector<double> final_avail(N);
+        vector<int> assignment(N);
+//      vector<int> opt_assignment(N);
         foreach combination of assignment
 		{
 				double system_avail = get_system_avail();
@@ -219,7 +220,7 @@ main ( int argc, char *argv[] )
 						double total_cost = get_total_cost();
 						if ( total_cost < min_total_cost ) {
 								min_total_cost = total_cost;
-								final_avail = avail;
+                                opt_assignment = assignment;
 						}
 				}
 		}

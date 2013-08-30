@@ -13,8 +13,7 @@
 //        Company:  
 // 
 // =====================================================================================
-
-
+#include "GaloisFieldValue.hpp"
 //--------------------------------------------------------------------------------------
 //       Class:  GaloisFieldValue
 //      Method:  GaloisFieldValue
@@ -55,4 +54,13 @@ GaloisFieldValue::operator = ( const GaloisFieldValue &other )
 		return *this;
 }  // -----  end of method GaloisFieldValue::operator =  (assignment operator)  -----
 
+//--------------------------------------------------------------------------------------
+//       Class:  GaloisFieldValue
+//      Method:  operator +
+// Description:  assignment operator
+//--------------------------------------------------------------------------------------
+		GaloisFieldValue&
+GaloisFieldValue operator + ( const GaloisFieldValue &lhs, const GaloisFieldValue &rhs );
+{
+}  // -----  end of method GaloisFieldValue::operator =  (assignment operator)  -----
 

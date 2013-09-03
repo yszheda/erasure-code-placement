@@ -24,7 +24,7 @@ using namespace std;
 //  Description:  
 // =====================================================================================
 
-template < int gf_width = 8 >
+template < unsigned int gf_width = 8 >
 class GaloisFieldValue
 {
 		public:

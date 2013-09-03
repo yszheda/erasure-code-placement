@@ -20,7 +20,7 @@
 //      Method:  setup_tables
 // Description:  setup log and exp tables
 //--------------------------------------------------------------------------------------
-template < int gf_width = 8 >
+template < unsigned int gf_width = 8 >
 void 
 GaloisFieldValue::setup_tables ()
 {
@@ -47,7 +47,7 @@ GaloisFieldValue::setup_tables ()
 //      Method:  operator =
 // Description:  assignment operator
 //--------------------------------------------------------------------------------------
-template < int gf_width = 8 >
+template < unsigned int gf_width = 8 >
 GaloisFieldValue<gf_width>&
 GaloisFieldValue::operator = ( const GaloisFieldValue &other )
 {
@@ -75,7 +75,7 @@ GaloisFieldValue::operator + ( const GaloisFieldValue<gf_width> &rhs )
 //      Method:  operator -
 // Description:  sub operator
 //--------------------------------------------------------------------------------------
-template < int gf_width = 8 >
+template < unsigned int gf_width = 8 >
 GaloisFieldValue<gf_width>&
 GaloisFieldValue::operator - ( const GaloisFieldValue<gf_width> &rhs )
 {
@@ -87,7 +87,7 @@ GaloisFieldValue::operator - ( const GaloisFieldValue<gf_width> &rhs )
 //      Method:  operator *
 // Description:  mul operator
 //--------------------------------------------------------------------------------------
-template < int gf_width = 8 >
+template < unsigned int gf_width = 8 >
 GaloisFieldValue<gf_width>&
 GaloisFieldValue::operator * ( const GaloisFieldValue<gf_width> &rhs )
 {
@@ -109,7 +109,7 @@ GaloisFieldValue::operator * ( const GaloisFieldValue<gf_width> &rhs )
 //      Method:  operator /
 // Description:  div operator
 //--------------------------------------------------------------------------------------
-template < int gf_width = 8 >
+template < unsigned int gf_width = 8 >
 GaloisFieldValue<gf_width>&
 GaloisFieldValue::operator / ( const GaloisFieldValue<gf_width> &rhs )
 {
@@ -132,7 +132,7 @@ GaloisFieldValue::operator / ( const GaloisFieldValue<gf_width> &rhs )
 //      Method:  operator ^
 // Description:  pow operator
 //--------------------------------------------------------------------------------------
-template < int gf_width = 8 >
+template < unsigned int gf_width = 8 >
 GaloisFieldValue<gf_width>&
 GaloisFieldValue::operator ^ ( const int &rhs )
 {

@@ -18,7 +18,6 @@
 #define  GALOISFIELDVALUE_H
 #include <iostream>
 #include <vector>
-using namespace std;
 // =====================================================================================
 //        Class:  GaloisFieldValue
 //  Description:  
@@ -71,6 +70,9 @@ class GaloisFieldValue
 						return !(*this < other);
 				}
 
+				// NOTE: ostream operator is also a template 
+				friend std::ostream& operator << <>( std::ostream& os, const GaloisFieldValue<gf_width> &value );
+
 		protected:
 				// ====================  DATA MEMBERS  =======================================
 
@@ -81,9 +83,10 @@ class GaloisFieldValue
 				int gf_value;		// the value of galois field poly
 				void setup_tables();
 
-				static vector<int> gf_log_table;
-				static vector<int> gf_exp_table;
-				static int prim_poly_table[33] = 
+				static std::vector<int> gf_log_table;
+				static std::vector<int> gf_exp_table;
+				// constexpr is a C++11 feature
+				static constexpr unsigned int prim_poly_table[33] = 
 				{ 0, 
 				/*  1 */     1, 
 				/*  2 */    07,
@@ -117,11 +120,18 @@ class GaloisFieldValue
 				/* 30 */    010040000007,
 				/* 31 */    020000000011, 
 				/* 32 */    00020000007 };  /* Really 40020000007, but we're omitting the high order bit */
-				
-				}; // -----  end of template class GaloisFieldValue  -----
+								
+}; // -----  end of template class GaloisFieldValue  -----
 
-
-
-
+template < unsigned int gf_width = 8 >
+GaloisFieldValue<gf_width> operator + ( const GaloisFieldValue<gf_width> &lhs, const GaloisFieldValue<gf_width> &rhs );
+template < unsigned int gf_width = 8 >
+GaloisFieldValue<gf_width> operator -= ( const GaloisFieldValue<gf_width> &lhs, const GaloisFieldValue<gf_width> &rhs );
+template < unsigned int gf_width = 8 >
+GaloisFieldValue<gf_width> operator *= ( const GaloisFieldValue<gf_width> &lhs, const GaloisFieldValue<gf_width> &rhs );
+template < unsigned int gf_width = 8 >
+GaloisFieldValue<gf_width> operator /= ( const GaloisFieldValue<gf_width> &lhs, const GaloisFieldValue<gf_width> &rhs );
+template < unsigned int gf_width = 8 >
+GaloisFieldValue<gf_width> operator ^= ( const GaloisFieldValue<gf_width> &lhs, const int &rhs );
 
 #endif   // ----- #ifndef GALOISFIELDVALUE_H  -----

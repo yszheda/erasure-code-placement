@@ -16,7 +16,9 @@
 #include "GaloisFieldValue.hpp"
 #include <iostream>
 #include <vector>
-using namespace std;
+// using namespace std;
+
+constexpr unsigned int GaloisFieldValue::prim_poly_table[33];
 //--------------------------------------------------------------------------------------
 //       Class:  GaloisFieldValue
 //      Method:  setup_tables
@@ -41,7 +43,6 @@ GaloisFieldValue::setup_tables ()
 						exp = exp ^ prim_poly;
 				}
 		}
-
 }
 
 //--------------------------------------------------------------------------------------
@@ -144,3 +145,79 @@ GaloisFieldValue::operator ^= ( const int &rhs )
 		gf_value = gf_exp_table[pow_log];
 		return *this;
 }
+
+// ===  FUNCTION  ======================================================================
+//         Name:  operator <<
+//  Description:  
+// =====================================================================================
+template < unsigned int gf_width = 8 >
+std::ostream& operator << ( std::ostream &os, const GaloisFieldValue<gf_width> &value )
+{
+		os << value.gf_value;
+		return os;
+}
+
+// ===  FUNCTION  ======================================================================
+//         Name:  operator +
+//  Description:  add operator 
+// =====================================================================================
+template < int gf_width = 8 >
+GaloisFieldValue<gf_width> operator + ( const GaloisFieldValue<gf_width> &lhs, const GaloisFieldValue<gf_width> &rhs );
+{
+		GaloisFieldValue<gf_width> result = lhs;
+		result += rhs;
+		return result;
+}
+
+// ===  FUNCTION  ======================================================================
+//         Name:  operator -
+//  Description:  sub operator 
+// =====================================================================================
+template < int gf_width = 8 >
+GaloisFieldValue<gf_width> operator - ( const GaloisFieldValue<gf_width> &lhs, const GaloisFieldValue<gf_width> &rhs );
+{
+		GaloisFieldValue<gf_width> result = lhs;
+		result -= rhs;
+		return result;
+}
+
+// ===  FUNCTION  ======================================================================
+//         Name:  operator *
+//  Description:  mul operator 
+// =====================================================================================
+template < int gf_width = 8 >
+GaloisFieldValue<gf_width> operator * ( const GaloisFieldValue<gf_width> &lhs, const GaloisFieldValue<gf_width> &rhs );
+{
+		GaloisFieldValue<gf_width> result = lhs;
+		result *= rhs;
+		return result;
+}
+
+// ===  FUNCTION  ======================================================================
+//         Name:  operator /
+//  Description:  div operator 
+// =====================================================================================
+template < int gf_width = 8 >
+GaloisFieldValue<gf_width> operator / ( const GaloisFieldValue<gf_width> &lhs, const GaloisFieldValue<gf_width> &rhs );
+{
+		GaloisFieldValue<gf_width> result = lhs;
+		result /= rhs;
+		return result;
+}
+
+// ===  FUNCTION  ======================================================================
+//         Name:  operator ^
+//  Description:  add operator 
+// =====================================================================================
+template < int gf_width = 8 >
+GaloisFieldValue<gf_width> operator ^ ( const GaloisFieldValue<gf_width> &lhs, const GaloisFieldValue<gf_width> &rhs );
+{
+		GaloisFieldValue<gf_width> result = lhs;
+		result ^= rhs;
+		return result;
+}
+
+
+
+
+

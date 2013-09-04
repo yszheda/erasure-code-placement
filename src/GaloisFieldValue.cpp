@@ -14,7 +14,9 @@
 // 
 // =====================================================================================
 #include "GaloisFieldValue.hpp"
-
+#include <iostream>
+#include <vector>
+using namespace std;
 //--------------------------------------------------------------------------------------
 //       Class:  GaloisFieldValue
 //      Method:  setup_tables
@@ -59,12 +61,12 @@ GaloisFieldValue::operator = ( const GaloisFieldValue &other )
 
 //--------------------------------------------------------------------------------------
 //       Class:  GaloisFieldValue
-//      Method:  operator +
-// Description:  add operator
+//      Method:  operator +=
+// Description:  add assignment operator
 //--------------------------------------------------------------------------------------
 template < int gf_width = 8 >
 GaloisFieldValue<gf_width>&
-GaloisFieldValue::operator + ( const GaloisFieldValue<gf_width> &rhs )
+GaloisFieldValue::operator += ( const GaloisFieldValue<gf_width> &rhs )
 {
 		gf_value ^= rhs.gf_value; 	// XOR
 		return *this;
@@ -72,24 +74,25 @@ GaloisFieldValue::operator + ( const GaloisFieldValue<gf_width> &rhs )
 
 //--------------------------------------------------------------------------------------
 //       Class:  GaloisFieldValue
-//      Method:  operator -
-// Description:  sub operator
+//      Method:  operator -=
+// Description:  sub assignment operator
 //--------------------------------------------------------------------------------------
 template < unsigned int gf_width = 8 >
 GaloisFieldValue<gf_width>&
-GaloisFieldValue::operator - ( const GaloisFieldValue<gf_width> &rhs )
+GaloisFieldValue::operator -= ( const GaloisFieldValue<gf_width> &rhs )
 {
-		operator+(rhs);
+//		operator+=(rhs);
+		return (*this += other);
 }
 
 //--------------------------------------------------------------------------------------
 //       Class:  GaloisFieldValue
-//      Method:  operator *
-// Description:  mul operator
+//      Method:  operator *=
+// Description:  mul assignment operator
 //--------------------------------------------------------------------------------------
 template < unsigned int gf_width = 8 >
 GaloisFieldValue<gf_width>&
-GaloisFieldValue::operator * ( const GaloisFieldValue<gf_width> &rhs )
+GaloisFieldValue::operator *= ( const GaloisFieldValue<gf_width> &rhs )
 {
 		if (this.gf_value == 0 || rhs.gf_value == 0) {
 				gf_value = 0;
@@ -106,12 +109,12 @@ GaloisFieldValue::operator * ( const GaloisFieldValue<gf_width> &rhs )
 
 //--------------------------------------------------------------------------------------
 //       Class:  GaloisFieldValue
-//      Method:  operator /
-// Description:  div operator
+//      Method:  operator /=
+// Description:  div assignment operator
 //--------------------------------------------------------------------------------------
 template < unsigned int gf_width = 8 >
 GaloisFieldValue<gf_width>&
-GaloisFieldValue::operator / ( const GaloisFieldValue<gf_width> &rhs )
+GaloisFieldValue::operator /= ( const GaloisFieldValue<gf_width> &rhs )
 {
 		static_assert(rhs.gf_value != 0, "Cannot divide by zero!");
 		if (this.gf_value == 0) {
@@ -129,12 +132,12 @@ GaloisFieldValue::operator / ( const GaloisFieldValue<gf_width> &rhs )
 
 //--------------------------------------------------------------------------------------
 //       Class:  GaloisFieldValue
-//      Method:  operator ^
-// Description:  pow operator
+//      Method:  operator ^=
+// Description:  pow assignment operator
 //--------------------------------------------------------------------------------------
 template < unsigned int gf_width = 8 >
 GaloisFieldValue<gf_width>&
-GaloisFieldValue::operator ^ ( const int &rhs )
+GaloisFieldValue::operator ^= ( const int &rhs )
 {
 		int gf_max_num = (1 << gf_width) - 1;
 		int pow_log = (gf_log_table[gf_value] * rhs) % gf_max_num;

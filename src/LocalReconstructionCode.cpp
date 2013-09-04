@@ -66,6 +66,59 @@ void LocalReconstructionCode::update_failure_cnt( long failure_state )
 		}
 }
 
+// helper func
+// need to be encapsulated
+
+inline matrix_idx(int row, int col, int col_num)
+{
+		return row*col_num + col;
+}
+
+template < typename T >
+bool check_invertable( int size, T* matrix )
+{
+		bool is_invertable = true;
+		for (auto row = 0; row < size; row++) {
+				int pivot_idx = -1;
+				for (auto col = 0; col < size; col++) {
+						if (matrix[ matrix_idx(row, col, size) ] != T(0)) {
+								pivot_idx = col;
+								break;
+						}
+				}
+				if (pivot_idx == -1) {
+						is_invertable = false;
+				}
+		}
+		return is_invertable;
+}
+
+template < typename T >
+bool check_invertable( int size, vector< vector<T> >& matrix )
+{
+		bool is_invertable = true;
+		for (auto row = 0; row < size; row++) {
+				int pivot_idx = -1;
+				for (auto col = 0; col < size; col++) {
+						if (matrix[row][col] != T(0)) {
+								pivot_idx = col;
+								break;
+						}
+				}
+				if (pivot_idx == -1) {
+						is_invertable = false;
+				}
+		}
+		return is_invertable;
+}
+
+
+void gen_solver_matrix( int out_chunk_num, long failure_state, GaloisFieldValue<gf_width>* encoding_matrix, GaloisFieldValue<gf_width>* solver_matrix )
+{
+
+}
+
+
 //--------------------------------------------------------------------------------------
 //       Class:  LocalReconstructionCode
 //      Method:  check_recoverable
@@ -77,6 +130,7 @@ bool LocalReconstructionCode::check_recoverable( long failure_state )
 		if (failure_cnt.total_cnt <= global_parities_num + 1) {
 				return true;
 		} else if (failure_cnt.total_cnt == global_parities_num + 2) {
+
 		} else {
 				return false;
 		}

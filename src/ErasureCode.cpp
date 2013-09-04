@@ -33,7 +33,7 @@ ErasureCode::ErasureCode ( int in_chunk_num, int out_chunk_num ):gf_width(gf_wid
 // Description:  constructor
 //--------------------------------------------------------------------------------------
 template < unsigned int gf_width = 8 >
-ErasureCode::ErasureCode ( int in_chunk_num, int out_chunk_num, vector< vector<gf<gf_width> > > encoding_matrix ):gf_width(gf_width), in_chunk_num(in_chunk_num), out_chunk_num(out_chunk_num) {
+ErasureCode::ErasureCode ( int in_chunk_num, int out_chunk_num, Array2D< GaloisFieldValue<gf_width>, out_chunk_num, in_chunk_num >& encoding_matrix ):gf_width(gf_width), in_chunk_num(in_chunk_num), out_chunk_num(out_chunk_num) {
 		int row_num = encoding_matrix[0].size();
 		int col_num = encoding_matrix.size();
 //		static_assert(row_num == in_chunk_num, "Wrong encoding matrix row number!");

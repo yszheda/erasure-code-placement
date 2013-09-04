@@ -18,8 +18,9 @@
 #define  LOCALRECONSTRUCTIONCODE_H
 
 #include <iostream>
-#include <vector>
+#include <array>
 #include "GaloisFieldValue.hpp"
+#include "Array2D.hpp"
 using namespace std;
 
 const unsigned int LRC_gf_width = 4;
@@ -33,7 +34,7 @@ class LocalReconstructionCode: public ErasureCode<LRC_gf_width>
 				// ====================  LIFECYCLE     =======================================
 //				LocalReconstructionCode ();                             // constructor
 				LocalReconstructionCode ( int in_chunk_num, int group_num, int global_parities_num );
-				LocalReconstructionCode ( int in_chunk_num, int group_num, int global_parities_num, vector< vector<GaloisFieldValue<LRC_gf_width> > >& encoding_matrix );
+				LocalReconstructionCode ( int in_chunk_num, int group_num, int global_parities_num, Array2D< GaloisFieldValue<gf_width>, out_chunk_num, in_chunk_num >& encoding_matrix );
 				~LocalReconstructionCode ();                            // destructor
 
 				// ====================  ACCESSORS     =======================================

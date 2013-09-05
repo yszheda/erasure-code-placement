@@ -29,7 +29,7 @@ using namespace std;
 // erasure code parameter
 // required node number
 // int n;
-// minimum decodable chuck number
+// minimum decodable chunk number
 // int k;
 // normally it should contains n and k
 // vector<int> param;
@@ -58,7 +58,7 @@ double delta = 0.99;
 //  Output
 //----------------------------------------------------------------------
 // optimal assignment vector
-// store the corresponding chuck index for each node
+// store the corresponding chunk index for each node
 // -1 for not assigned
 vector<int> opt_assignment;
 
@@ -90,7 +90,7 @@ void update_failure_cnt( const long failure_state )
 {	
 		for (auto i = 0; i < out_chunk_num; i++) {
 				if (failure_state & 0x01 == 1) {
-						total_cnt ++;
+						failure_cnt.total_cnt ++;
 						if (i < global_parities_num) {
 								failure_cnt.global_parities_cnt ++;
 						} else if (i < global_parities_num + group_num) {
@@ -140,13 +140,13 @@ bool check_recoverable( const long failure_state )
 		} else if (failure_cnt.total_cnt == global_parities_num + 2) {
 				// Currently work for LRC(6, 2, 2)
 				if (failure_cnt.local_parities_cnt[0] == 1 && failure_cnt.local_parities_cnt[1] == 1) {
-						if (failed_group.native_chunks_cnt[0] = 1 && failure_cnt.native_chunks_cnt[1] == 1) {
+						if (failure_cnt.native_chunks_cnt[0] = 1 && failure_cnt.native_chunks_cnt[1] == 1) {
 								is_recoverable = true;
 						}
 				} else if (failure_cnt.local_parities_cnt[0] == 1 || failure_cnt.local_parities_cnt[1] == 1) {
 						int group_fail_cnt[2];
-						group_fail_cnt[0] = failed_group.native_chunks_cnt[0] + failed_group.local_parities_cnt[0];
-						group_fail_cnt[1] = failed_group.native_chunks_cnt[1] + failed_group.local_parities_cnt[1];
+						group_fail_cnt[0] = failure_cnt.native_chunks_cnt[0] + failure_cnt.local_parities_cnt[0];
+						group_fail_cnt[1] = failure_cnt.native_chunks_cnt[1] + failure_cnt.local_parities_cnt[1];
 						if (group_fail_cnt[0] == 2 && group_fail_cnt[1] == 2) {
 								is_recoverable = true;
 						}
@@ -219,7 +219,7 @@ void
 gen_selected_node_avail_list ( const vector<int>& assignment )
 {
 		for ( auto idx = 0; idx < assignment.size(); idx++ ) {
-				int chuck_idx = assignment[idx];
+				int chunk_idx = assignment[idx];
 				selected_avail[idx] = avail[chunk_idx];
 		}
 		return ;
@@ -297,7 +297,7 @@ bool next_combination( const int total_size, const int subset_size, vector<int>&
 		}
 		int pivot_idx;
 		for (pivot_idx = subset_size-1; pivot_idx > 0; pivot_idx --) {
-				if (a[pivot_idx] - pivot_idx < total_size - subset_size) {
+				if (subset[pivot_idx] - pivot_idx < total_size - subset_size) {
 						break;
 				}
 		}
@@ -329,7 +329,7 @@ main ( int argc, char *argv[] )
 			do {
 					double system_avail = get_system_avail(assignment);
 					// check whether the availability violates the SLA
-					if ( system_avail >= delt ) {
+					if ( system_avail >= delta ) {
 							double total_cost = get_total_cost(assignment);
 							if ( total_cost < min_total_cost ) {
 									min_total_cost = total_cost;
@@ -337,7 +337,7 @@ main ( int argc, char *argv[] )
 							}
 					}
 			} while ( std::next_permutation(assignment.begin(), assignment.end()) );
-		} while ( next_combination(node_num, out_chunk_num, assignment) )
+		} while ( next_combination(node_num, out_chunk_num, assignment) );
 
 		return EXIT_SUCCESS;
 }				// ----------  end of function main  ----------

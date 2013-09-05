@@ -40,11 +40,11 @@ class GaloisFieldValue
 				// ====================  OPERATORS     =======================================
 
 				GaloisFieldValue<gf_width>& operator = ( const GaloisFieldValue<gf_width> &other ); // copy assignment operator
-				GaloisFieldValue<gf_width> operator += ( const GaloisFieldValue<gf_width> &rhs );
-				GaloisFieldValue<gf_width> operator -= ( const GaloisFieldValue<gf_width> &rhs );
-				GaloisFieldValue<gf_width> operator *= ( const GaloisFieldValue<gf_width> &rhs );
-				GaloisFieldValue<gf_width> operator /= ( const GaloisFieldValue<gf_width> &rhs );
-				GaloisFieldValue<gf_width> operator ^= ( const int &rhs );
+				GaloisFieldValue<gf_width>& operator += ( const GaloisFieldValue<gf_width> &other );
+				GaloisFieldValue<gf_width>& operator -= ( const GaloisFieldValue<gf_width> &other );
+				GaloisFieldValue<gf_width>& operator *= ( const GaloisFieldValue<gf_width> &other );
+				GaloisFieldValue<gf_width>& operator /= ( const GaloisFieldValue<gf_width> &other );
+				GaloisFieldValue<gf_width>& operator ^= ( const int &rhs );
 				inline bool operator == ( const GaloisFieldValue<gf_width> &other ) const 
 				{
 						return (this.gf_value == other.gf_value);

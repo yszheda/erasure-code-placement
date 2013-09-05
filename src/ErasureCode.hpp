@@ -19,7 +19,7 @@
 #include <iostream>
 #include <vector>
 #include "GaloisFieldValue.hpp"
-using namespace std;
+// using namespace std;
 
 // =====================================================================================
 //        Class:  ErasureCode
@@ -31,36 +31,25 @@ class ErasureCode
 		public:
 				// ====================  LIFECYCLE     =======================================
 //				ErasureCode ();                             // constructor
-//				ErasureCode ( int gf_width, int in_chunk_num, int out_chunk_num );
-//				ErasureCode ( int gf_width, int in_chunk_num, int out_chunk_num, vector< vector<GaloisFieldValue<gf_width> > >& encoding_matrix );
 				ErasureCode ( int in_chunk_num, int out_chunk_num );
-				ErasureCode ( int in_chunk_num, int out_chunk_num, vector< vector<GaloisFieldValue<gf_width> > >& encoding_matrix );
+				ErasureCode ( int in_chunk_num, int out_chunk_num, vector<GaloisFieldValue<gf_width> > encoding_matrix );
 				virtual ~ErasureCode ();                    // destructor
 
 				// ====================  ACCESSORS     =======================================
 				virtual bool check_recoverable ( long failure_state ) = 0;
 				virtual int get_min_cost ( long failure_state ) = 0;
 
-				//--------------------------------------------------------------------------------------
-				//       Class:  LocalReconstructionCode
-				//      Method:  get_encoding_matrix
-				//--------------------------------------------------------------------------------------
-				template < class T >
-						virtual inline vector< vector< GaloisFieldValue<gf_width> > > LocalReconstructionCode<T>::get_encoding_matrix (  ) const
-						{
-								return encoding_matrix;
-						}		// -----  end of method LocalReconstructionCode<T>::get_encoding_matrix  -----
+				virtual inline vector< GaloisFieldValue<gf_width> > get_encoding_matrix (  ) const
+				{
+						return encoding_matrix;
+				}		// -----  end of method get_encoding_matrix  -----
 
-				//--------------------------------------------------------------------------------------
-				//       Class:  LocalReconstructionCode
-				//      Method:  set_encoding_matrix
-				//--------------------------------------------------------------------------------------
-				template < class T >
-						virtual inline void LocalReconstructionCode<T>::set_encoding_matrix ( vector< vector< GaloisFieldValue<gf_width> > > value )
-						{
-								encoding_matrix	= value;
-								return ;
-						}		// -----  end of method LocalReconstructionCode<T>::set_encoding_matrix  -----
+				virtual inline void set_encoding_matrix ( vector< GaloisFieldValue<gf_width> > value )
+				{
+//						encoding_matrix	= value;
+						std::copy(value.begin(), value.end(), encoding_matrix.begin() );
+						return ;
+				}		// -----  end of method set_encoding_matrix  -----
 				
 				// ====================  MUTATORS      =======================================
 
@@ -72,7 +61,8 @@ class ErasureCode
 //				int gf_width;		// the width of galois field
 				int in_chunk_num;	// the number of input chunks
 				int out_chunk_num;	// the number of output chunks
-				vector< vector< GaloisFieldValue<gf_width> > > encoding_matrix;
+				// NOTE: change the 2D array into a 1D vector is more convenient for memory management
+				vector< GaloisFieldValue<gf_width> > encoding_matrix;
 
 		private:
 				ErasureCode ( const ErasureCode &other );   // copy constructor

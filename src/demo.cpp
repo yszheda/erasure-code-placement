@@ -14,6 +14,8 @@
 // 
 // =====================================================================================
 #include <iostream>
+#include <fstream>
+#include <iterator>
 #include <algorithm>
 #include <vector>
 #include <map>
@@ -49,7 +51,8 @@ const int gf_width = 4;
 // total node number
 int node_num = 20;
 // node_num node availability vector
-vector<double> avail(node_num);
+// vector<double> avail(node_num);
+vector<double> avail;
 
 // required system availability
 double delta = 0.99;
@@ -133,7 +136,7 @@ void get_solver_matrix( long failure_state, vector< GaloisFieldValue<gf_width> >
 // =====================================================================================
 bool check_recoverable( const long failure_state )
 {
-		bool is_recovable = false;
+		bool is_recoverable = false;
 		update_failure_cnt(failure_state);
 		if (failure_cnt.total_cnt <= global_parities_num + 1) {
 				is_recoverable = true;
@@ -308,10 +311,27 @@ bool next_combination( const int total_size, const int subset_size, vector<int>&
 		return true;
 }
 
+void print_vector(vector<int> &v)
+{
+		for (auto e: v)
+		{
+				cout << e << " ";
+		}
+		cout << endl;
+}
 
 int
 main ( int argc, char *argv[] )
 {
+		ifstream fs("demo-input.txt");
+		copy(istream_iterator<double>(fs), 
+			istream_iterator<double>(), 
+			back_inserter(avail));
+		for (auto availability: avail)
+		{
+				cout << availability << endl;
+		}
+		fs.close();
 //		SpecifiedCode someCode(param);
 //		ErasureCode& code = someCode;
 //		gen_recoverable_failure_list(code);
@@ -321,23 +341,34 @@ main ( int argc, char *argv[] )
 
 		vector<int> assignment;
 		for (auto i = 0; i < out_chunk_num; i++) {
-				assignment[i] = i;
+				assignment.push_back(i);
 		}
 
 		double min_total_cost = numeric_limits<double>::infinity();
 		do {
+			vector<int> permutation(assignment);
 			do {
-					double system_avail = get_system_avail(assignment);
+#ifdef DEBUG					
+					print_vector(permutation);
+#endif
+					double system_avail = get_system_avail(permutation);
 					// check whether the availability violates the SLA
 					if ( system_avail >= delta ) {
-							double total_cost = get_total_cost(assignment);
+							double total_cost = get_total_cost(permutation);
 							if ( total_cost < min_total_cost ) {
 									min_total_cost = total_cost;
         	                        opt_assignment = assignment;
 							}
 					}
-			} while ( std::next_permutation(assignment.begin(), assignment.end()) );
+			} while ( std::next_permutation(permutation.begin(), permutation.end()) );
+			permutation.clear();
 		} while ( next_combination(node_num, out_chunk_num, assignment) );
+
+		cout << "min total cost is " << min_total_cost << endl;
+		for (auto i = 0; i < out_chunk_num; ++i)
+		{
+				cout << "Chunk " << i << " is stored in node " << assignment[i] << endl;
+		}
 
 		return EXIT_SUCCESS;
 }				// ----------  end of function main  ----------

@@ -20,7 +20,7 @@
 #include <limits>
 #include <cmath>
 #include <cassert>
-#include "GaloisFieldValue.hpp"
+// #include "GaloisFieldValue.hpp"
 using namespace std;
 
 //----------------------------------------------------------------------
@@ -44,7 +44,7 @@ int out_chunk_num = in_chunk_num + group_num + global_parities_num;
 
 // encoding matrix
 const int gf_width = 4;
-vector< GaloisFieldValue<gf_width> > encoding_matrix;
+// vector< GaloisFieldValue<gf_width> > encoding_matrix;
 
 // total node number
 int node_num = 20;

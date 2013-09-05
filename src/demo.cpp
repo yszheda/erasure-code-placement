@@ -320,7 +320,7 @@ main ( int argc, char *argv[] )
 		gen_recoverable_failure_cost_list();
 
 		vector<int> assignment;
-		for (i = 0; i < out_chunk_num; i++) {
+		for (auto i = 0; i < out_chunk_num; i++) {
 				assignment[i] = i;
 		}
 

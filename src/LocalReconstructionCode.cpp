@@ -31,7 +31,7 @@ LocalReconstructionCode::LocalReconstructionCode ( int in_chunk_num, int group_n
 //      Method:  LocalReconstructionCode
 // Description:  constructor
 //--------------------------------------------------------------------------------------
-LocalReconstructionCode::LocalReconstructionCode ( int in_chunk_num, int group_num, int global_parities_num, vector< vector<GaloisFieldValue<LRC_gf_width> > > ): 
+LocalReconstructionCode::LocalReconstructionCode ( int in_chunk_num, int group_num, int global_parities_num, vector<GaloisFieldValue<LRC_gf_width> > ): 
 		ErasureCode(in_chunk_num, in_chunk_num+group_num+global_parities_num, encoding_matrix), group_num(group_num), global_parities_num(global_parities_num)
 {
 }  // -----  end of method LocalReconstructionCode::LocalReconstructionCode  (constructor)  -----
@@ -97,11 +97,11 @@ int LocalReconstructionCode::get_min_cost( long failure_state )
 				bool is_local_recovable = true;
 				int failed_group = 0;
 				for (auto i = 0; i < group_num; i++) {
-						if (native_chunks_cnt[group_num] + local_parities_cnt[group_num] > 1) {
+						if (failure_cnt.native_chunks_cnt[i] + failure_cnt.local_parities_cnt[i] > 1) {
 								is_local_recovable = false;
 								min_cost = in_chunk_num;
 						}
-						if (native_chunks_cnt[group_num] + local_parities_cnt[group_num] > 0) {
+						if (failure_cnt.native_chunks_cnt[i] + failure_cnt.local_parities_cnt[i] > 0) {
 								failed_group ++;
 						}
 

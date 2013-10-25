@@ -33,7 +33,7 @@ class LocalReconstructionCode: public ErasureCode<LRC_gf_width>
 				// ====================  LIFECYCLE     =======================================
 //				LocalReconstructionCode ();                             // constructor
 				LocalReconstructionCode ( int in_chunk_num, int group_num, int global_parities_num );
-				LocalReconstructionCode ( int in_chunk_num, int group_num, int global_parities_num, vector< vector<GaloisFieldValue<LRC_gf_width> > >& encoding_matrix );
+				LocalReconstructionCode ( int in_chunk_num, int group_num, int global_parities_num, vector<GaloisFieldValue<LRC_gf_width> >& encoding_matrix );
 				~LocalReconstructionCode ();                            // destructor
 
 				// ====================  ACCESSORS     =======================================
@@ -44,22 +44,23 @@ class LocalReconstructionCode: public ErasureCode<LRC_gf_width>
 				//       Class:  LocalReconstructionCode
 				//      Method:  get_encoding_matrix
 				//--------------------------------------------------------------------------------------
-				inline vector< vector< GaloisFieldValue<LRC_gf_width> > >
-						LocalReconstructionCode::get_encoding_matrix (  ) const
-						{
-								return encoding_matrix;
-						}		// -----  end of method LocalReconstructionCode::get_encoding_matrix  -----
+				inline vector< GaloisFieldValue<LRC_gf_width> >
+				get_encoding_matrix (  ) const
+				{
+						return encoding_matrix;
+				}		// -----  end of method LocalReconstructionCode::get_encoding_matrix  -----
 
 				//--------------------------------------------------------------------------------------
 				//       Class:  LocalReconstructionCode
 				//      Method:  set_encoding_matrix
 				//--------------------------------------------------------------------------------------
 				inline void
-						LocalReconstructionCode::set_encoding_matrix ( vector< vector< GaloisFieldValue<LRC_gf_width> > > value )
-						{
-								encoding_matrix	= value;
-								return ;
-						}		// -----  end of method LocalReconstructionCode::set_encoding_matrix  -----
+				set_encoding_matrix ( vector< GaloisFieldValue<LRC_gf_width> > value )
+				{
+//						encoding_matrix	= value;
+						std::copy(value.begin(), value.end(), encoding_matrix.begin() );
+						return ;
+				}		// -----  end of method LocalReconstructionCode::set_encoding_matrix  -----
 				
 				// ====================  MUTATORS      =======================================
 

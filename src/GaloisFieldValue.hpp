@@ -17,6 +17,7 @@
 #ifndef  GALOISFIELDVALUE_H
 #define  GALOISFIELDVALUE_H
 #include <iostream>
+#include <ostream>
 #include <vector>
 // =====================================================================================
 //        Class:  GaloisFieldValue
@@ -71,7 +72,13 @@ class GaloisFieldValue
 				}
 
 				// NOTE: ostream operator is also a template 
-				friend std::ostream& operator << <>( std::ostream& os, const GaloisFieldValue<gf_width> &value );
+				// gcc complains about the following declaration, absurd?
+				// friend std::ostream& operator << <>( std::ostream& os, const GaloisFieldValue<gf_width> &value );
+				// use another way like the following declaration:
+				// rename the template parameter is necessary,
+				// and no default template arguments are allowed
+				template < unsigned int width >
+				friend std::ostream& operator << ( std::ostream& os, const GaloisFieldValue<width> &value );
 
 		protected:
 				// ====================  DATA MEMBERS  =======================================
